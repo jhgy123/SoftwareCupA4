@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+    <title>Title</title>
+
+</head>
+<p id="ntfText"></p>
+<input type="text" name="id" id="myid">
+<input type="button" onclick="AjaxSubmit();" value="提交">
+
+<script>
+    function AjaxSubmit(){
+        /*1、post方式发送数据*/
+        $.ajax({
+            url:"{% url 'api:t'%}",                 // 相当于form 中的 action
+            type:'POST',                  // 相当于form 中的 method
+            data:{'name':'www',"id":$("#myid").val()},         // 数据
+            dataType: "json",             // 注意这个定义的是返回值的类型，不是发送数据的类型，如果返回类型不是json类型，则会进入error函数
+            headers: { "X-CSRFToken": "{{ csrf_token }}" },//Django中表单提交都需要csrf验证
+            success: function (arg) {     // 后端返回成功后的回调函数,data为后端传来的数据
+                if(arg.name==="ww"){
+                    $("#ntfText").html("发起成功");
+                }
+                else{
+                    $("#ntfText").html("发起失败");
+                }
+
+            },
+            error:function(){
+            }
+        });
+        // /*2、get方式请求数据*/
+        // $.ajax({
+        //     url:"test_ajax/",
+        //     type:'GET',
+        //     success: function (data) {
+        //     }
+        // });
+    }
+</script>
+
+
+</body>
+
+</html>

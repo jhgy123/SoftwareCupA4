@@ -1,0 +1,288 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+{% load static %}
+<html>
+
+<head>
+    <!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+
+	<link rel="stylesheet" href="{% static 'fonts/icomoon/style.css' %}">
+	<link rel="stylesheet" href="{% static 'fonts/flaticon/font/flaticon.css' %}">
+
+	<link type="text/css" rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+	<link rel="stylesheet" href="{% static 'css/tiny-slider.css' %}">
+	<link rel="stylesheet" href="{% static 'css/glightbox.min.css' %}">
+	<link rel="stylesheet" href="{% static 'css/aos.css' %}">
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/upload.css' %}">
+
+    <title>智云盎</title>
+</head>
+
+<script src="http://i.gtimg.cn/qzone/biz/gdt/lib/jquery/jquery-2.1.4.js?max_age=31536000"></script>
+
+<script>
+
+    $(function () {
+        $('#upLoad').on('change', function () {
+            var filePath = $(this).val(),         //获取到input的value，里面是文件的路径  
+                fileFormat = filePath.substring(filePath.lastIndexOf(".")).toLowerCase(),
+                imgBase64 = '',      //存储图片的imgBase64  
+                fileObj = document.getElementById('upLoad').files[0]; //上传文件的对象,要这样写才行，用jquery写法获取不到对象  
+
+            // 检查是否是图片  
+            if (!fileFormat.match(/.png|.jpg|.jpeg/)) {
+                alert('上传错误,文件格式必须为：png/jpg/jpeg');
+                return;
+            }
+
+            // 调用函数，对图片进行压缩  
+            compress(fileObj, function (imgBase64) {
+                imgBase64 = imgBase64;    //存储转换的base64编码  
+                $('#viewImg').attr('src', imgBase64); //显示预览图片 
+                $('#viewImg1').attr('src', imgBase64); //显示预览图片  
+            });
+        });
+
+        // 不对图片进行压缩，直接转成base64  
+        function directTurnIntoBase64(fileObj, callback) {
+            var r = new FileReader();
+            // 转成base64  
+            r.onload = function () {
+                //变成字符串  
+                imgBase64 = r.result;
+                console.log(imgBase64);
+                callback(imgBase64);
+            }
+            r.readAsDataURL(fileObj);    //转成Base64格式  
+        }
+
+        // 对图片进行压缩  
+        function compress(fileObj, callback) {
+            if (typeof (FileReader) === 'undefined') {
+                console.log("当前浏览器内核不支持base64图标压缩");
+                //调用上传方式不压缩    
+                directTurnIntoBase64(fileObj, callback);
+            } else {
+                try {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        var image = $('<img/>');
+                        image.load(function () {
+                            square = 700,   //定义画布的大小，也就是图片压缩之后的像素  
+                                canvas = document.createElement('canvas'),
+                                context = canvas.getContext('2d'),
+                                imageWidth = 0,    //压缩图片的大小  
+                                imageHeight = 0,
+                                offsetX = 0,
+                                offsetY = 0,
+                                data = '';
+
+                            canvas.width = square;
+                            canvas.height = square;
+                            context.clearRect(0, 0, square, square);
+
+                            if (this.width > this.height) {
+                                imageWidth = Math.round(square * this.width / this.height);
+                                imageHeight = square;
+                                offsetX = - Math.round((imageWidth - square) / 2);
+                            } else {
+                                imageHeight = Math.round(square * this.height / this.width);
+                                imageWidth = square;
+                                offsetY = - Math.round((imageHeight - square) / 2);
+                            }
+                            context.drawImage(this, offsetX, offsetY, imageWidth, imageHeight);
+                            var data = canvas.toDataURL('image/jpeg');
+                            //压缩完成执行回调    
+                            callback(data);
+                        });
+                        image.attr('src', e.target.result);
+                    };
+                    reader.readAsDataURL(fileObj);
+                } catch (e) {
+                    console.log("压缩失败!");
+                    //调用直接上传方式  不压缩   
+                    directTurnIntoBase64(fileObj, callback);
+                }
+            }
+        }
+    });
+
+</script>
+
+<body>
+    <div class="site-mobile-menu site-navbar-target">
+		<div class="site-mobile-menu-header">
+			<div class="site-mobile-menu-close">
+				<span class="icofont-close js-menu-toggle"></span>
+			</div>
+		</div>
+		<div class="site-mobile-menu-body"></div>
+	</div>
+
+	<nav class="site-nav">
+		<div class="container">
+			<div class="site-navigation">
+				<a href="/" class="logo m-0 float-left">智云盎</a>
+
+				<ul class="js-clone-nav d-none d-lg-inline-block text-left site-menu float-right">
+					<li class="active"><a href="/">首页</a></li>
+					<li><a href="/mbtq">目标提取</a></li>
+					<li><a href="/bhjc">变化检测</a></li>
+					<li><a href="/mbjc">目标检测</a></li>
+					<li><a href="/dwfl">地物分类</a></li>
+				</ul>
+
+				<a href="#" class="burger ms-auto float-end site-menu-toggle js-menu-toggle d-inline-block d-lg-none light" data-toggle="collapse" data-target="#main-navbar">
+					<span></span>
+				</a>
+
+			</div>
+		</div>
+	</nav>
+
+	<div class="hero overlay" style="background-image: url({% static 'images/hero_1.jpg' %});">
+		
+		<div class="container">
+			<div class="row align-items-center">
+				<div class="col-lg-7 mx-auto text-center">
+					<h1 class="heading text-white" data-aos="fade-up" data-aos-delay="0">为您提供一键式智能解译遥感影像服务</h1>
+
+					<div class="row justify-content-center">
+						<div class="col-lg-8" data-aos="fade-up" data-aos-delay="100">
+							<p class="text-white-50 mb-5">了解更多请点击关于我们</p>		
+						</div>
+					</div>
+					
+
+					<p data-aos="fade-up" data-aos-delay="200"><a href="/about" class="btn btn-white mr-3 ">体验智云盎</a> <a href="/about" class="text-white glightbox">关于我们</a></p>
+				</div>
+			</div>
+		</div>
+
+	</div>
+    
+    <div class="flexbox">
+        <!-- 显示上传之后的图片 -->
+        <div></div>
+        <label class="fw-bold mb-4 h2" data-aos="fade-right" data-aos-delay="100" for="message">原始图</label>
+        <div></div>
+        <div style="width: 10vh;"></div>
+        <label class="fw-bold mb-4 h2" data-aos="fade-left" data-aos-delay="100" for="message">变化图</label>
+        <div></div>
+    </div>
+    <div class="flexbox2">
+        <!-- 显示上传之后的图片 -->
+        <div id='previewImg' class="box" data-aos="fade-right" data-aos-delay="100">
+            <img src="" id='viewImg' class="img" />
+        </div>
+
+        <div id='previewImg' class="box" data-aos="fade-left" data-aos-delay="100">
+            <img src="" id='viewImg1' class="img" />
+        </div>
+    </div>
+    
+    <div class="flexbox" data-aos="fade-up" data-aos-delay="100">
+        <div class="center">
+            <label for="upLoad" class="btn btn-white mr-3 ">选择图片</label>
+            <input type="file" id="upLoad" name="image" style="display: none;">  
+        </div>
+    </div>
+
+	<div class="site-footer">
+		<div class="container">
+
+			<div class="row">
+				<div class="col-lg-4">
+					<div class="widget">
+						<h3>关于我们<span class="text-primary"></span> </h3>
+						<p>一支有理想、有目标的团队！</p>
+					</div> <!-- /.widget -->
+					<div class="widget">
+						<h3>联系我们</h3>
+						<ul class="list-unstyled social">
+							<li><a href="#"><span class="icon-instagram"></span></a></li>
+							<li><a href="#"><span class="icon-twitter"></span></a></li>
+							<li><a href="#"><span class="icon-facebook"></span></a></li>
+							<li><a href="#"><span class="icon-linkedin"></span></a></li>
+							<li><a href="#"><span class="icon-pinterest"></span></a></li>
+							<li><a href="#"><span class="icon-dribbble"></span></a></li>
+						</ul>
+					</div> <!-- /.widget -->
+				</div> <!-- /.col-lg-3 -->
+
+				<div class="col-lg-2 ml-auto">
+					<div class="widget">
+						<h3>相关链接</h3>
+						<ul class="list-unstyled float-left links">
+							<li><a href="/mbtq">目标提取</a></li>
+							<li><a href="/bhjc">变化检测</a></li>
+							<li><a href="/mbjc">目标检测</a></li>
+							<li><a href="/dwfl">地物分类</a></li>
+							<li><a href="/about">关于我们</a></li>
+						</ul>
+					</div> <!-- /.widget -->
+				</div> <!-- /.col-lg-3 -->
+
+				<div class="col-lg-2">
+					<div class="widget">
+						<h3>Company</h3>
+						<ul class="list-unstyled float-left links">
+							<li><a href="#">About us</a></li>
+							<li><a href="#">Services</a></li>
+							<li><a href="#">News</a></li>
+							<li><a href="#">Careers</a></li>
+							<li><a href="#">Contact</a></li>
+						</ul>
+					</div> <!-- /.widget -->
+				</div> <!-- /.col-lg-3 -->
+
+
+				<div class="col-lg-3">
+					<div class="widget">
+						<h3>联系我们</h3>
+						<address>地址：43 Raymouth Rd. Baltemoer, London 3910</address>
+						<ul class="list-unstyled links mb-4">
+							<li><a href="tel://11234567890">联系人：XXX</a></li>
+							<li><a href="tel://11234567890">联系电话：156****0090</a></li>
+							<li><a href="mailto:info@mydomain.com">邮箱：XXXXXX@163.com</a></li>
+						</ul>
+					</div> <!-- /.widget -->
+				</div> <!-- /.col-lg-3 -->
+
+			</div> <!-- /.row -->
+
+			<div class="row mt-5">
+				<div class="col-12 text-center">
+					<p>
+						Copyright &copy;
+						<script>document.write(new Date().getFullYear());</script> <i class="icon-heart text-danger"
+							aria-hidden="true"></i>
+
+				</div>
+			</div>
+		</div> <!-- /.container -->
+	</div> <!-- /.site-footer -->
+
+	<!-- Preloader -->
+	<div id="overlayer"></div>
+	<div class="loader">
+		<div class="spinner-border text-primary" role="status">
+			<span class="visually-hidden">Loading...</span>
+		</div>
+	</div>
+
+	<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+	<script src="{% static 'js/tiny-slider.js' %}"></script>
+	<script src="{% static 'js/aos.js' %}"></script>
+	<script src="{% static 'js/navbar.js' %}"></script>
+	<script src="{% static 'js/counter.js' %}"></script>
+	<script src="{% static 'js/glightbox.min.js' %}"></script>
+
+	<script src="{% static 'js/custom.js' %}"></script>
+</body>
+
+</html>

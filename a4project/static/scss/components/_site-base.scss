@@ -1,0 +1,100 @@
+
+body {
+	font-family: $font-family-sans-serif;
+	font-weight: 400;
+	font-size: 14px;
+	background-color: #efefef;
+	overflow-x: hidden;
+}
+h1, h2, h3, h4, h5, .logo {
+	font-family: $font-family-sans-serif-secondary;
+}
+a {
+	transition: .3s all ease;
+	text-decoration: none;
+}
+
+.btn {
+	padding: 15px 30px;
+	border-radius: 30px;
+	text-transform: uppercase;
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: .1rem;
+	&:focus, &:active {
+		outline: none;
+		box-shadow: none!important;
+	}
+
+	&.btn-white {
+		background-color: $white;
+		color: $black;
+		&:hover {
+			background-color: $primary;
+			color: $white;
+		}
+	}
+
+}
+
+
+.circle-style {
+	li {
+		position: relative;
+		padding-left: 20px;
+		margin-bottom: 10px;
+		a {
+			color: #4a4a4a;
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+		&:before {
+			position: absolute;
+			left: 0;
+			top: 8px;
+			content: "";
+			width: 5px;
+			height: 5px;
+			border-radius: 50%;
+			background-color: $primary;
+		}
+	}
+}
+
+// PRELOADER STYLE
+#overlayer {
+	width:100%;
+	height:100%;  
+	position:fixed;
+	z-index:7100;
+	background: $white;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+.loader {
+	z-index:7700;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.form-control {
+	height: 54px;
+	border-radius: 7px;
+	background-color: #ccc;
+	border: 2px solid transparent;
+	&:active, &:focus {
+		outline: none;
+		box-shadow: none;
+		border: 2px solid $dark;
+	}
+}
+
+textarea {
+	height: auto!important;
+}
