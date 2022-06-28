@@ -5,7 +5,7 @@ from . import views
 
 urlpatterns = [
     #变化检测路由
-    url(r'^change_detection_api/$',views.change_detection_api, name='bhjcpai'),
+    url(r'^change_detection_api/$',views.change_detection_api, name='bhjcapi'),
     #目标检测路由
     url(r'^object_detection_api/$',views.object_detection_api, name='mbjcapi'),
     # 目标提取路由

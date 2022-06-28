@@ -60,17 +60,17 @@ odPredictor = Predictor(model_dir + "/od", use_gpu=True)
 def change_detection_api(request):
     if request.method == 'POST':
         # 获取两张处理图的base64
-        # image1 = request.POST.get('b64image1')
-        # image2 = request.POST.get('b64image2')
-        # image1 = bytes(image1, 'utf-8')
-        # image2 = bytes(image2, 'utf-8')
+        image1 = str(request.POST.get('b64image1'))
+        image2 = str(request.POST.get('b64image2'))
+        image1 = bytes(image1, 'utf-8')
+        image2 = bytes(image2, 'utf-8')
 
-        image1 = cv2.imread("E:/myProjects/new/software-cup-a4/a4project/demo_data/cd/A.png")
-        image2 = cv2.imread("E:/myProjects/new/software-cup-a4/a4project/demo_data/cd/B.png")
-        image1 = str(cv2_base64(image1),'utf-8')
-        image2 = str(cv2_base64(image2),'utf-8')
-        image1=bytes(image1,'utf-8')
-        image2 = bytes(image2,'utf-8')
+        # image1 = cv2.imread("E:/myProjects/new/software-cup-a4/a4project/demo_data/cd/A.png")
+        # image2 = cv2.imread("E:/myProjects/new/software-cup-a4/a4project/demo_data/cd/B.png")
+        # image1 = str(cv2_base64(image1),'utf-8')
+        # image2 = str(cv2_base64(image2),'utf-8')
+        # image1=bytes(image1,'utf-8')
+        # image2 = bytes(image2,'utf-8')
 
 
         ##########此处进行图片预处理与模型推理#############
@@ -101,7 +101,7 @@ def change_detection_api(request):
 def object_detection_api(request):
     if request.method == 'POST':
         # 获取处理图的base64
-        image1 = request.POST.get('b64image1')
+        image1 = str(request.POST.get('b64image1'))
         image1 = bytes(image1, 'utf-8')
 
         # image1 = cv2.imread("E:/myProjects/new/software-cup-a4/a4project/demo_data/od/playground_30.jpg")
@@ -138,7 +138,7 @@ def object_detection_api(request):
 def target_extraction_api(request):
     if request.method == 'POST':
         # 获取处理图的base64
-        image1 = request.POST.get('b64image1')
+        image1 = str(request.POST.get('b64image1'))
         image1 = bytes(image1, 'utf-8')
 
         # image1 = cv2.imread("E:/myProjects/new/software-cup-a4/a4project/demo_data/te/input_1.png")
@@ -174,7 +174,7 @@ def target_extraction_api(request):
 def classification_of_features_api(request):
     if request.method == 'POST':
         # 获取处理图的base64
-        image1 = request.POST.get('b64image1')
+        image1 = str(request.POST.get('b64image1'))
         image1 = bytes(image1, 'utf-8')
 
 

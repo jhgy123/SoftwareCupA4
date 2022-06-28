@@ -6,9 +6,9 @@ from . import views
 urlpatterns = [
     # 首页路由
     url(r'^index/$', views.index, name="index"),
-    url(r'^about/$',views.bhjc, name="about"),
+    url(r'^about/$',views.about, name="about"),
     # 变化检测路由
-    url(r'^bhjc/$',views.about, name="bhjc"),
+    url(r'^bhjc/$',views.bhjc, name="bhjc"),
     # 地物分类路由
     url(r'^dwfl/$', views.dwfl, name="dwfl"),
     # 目标检测路由

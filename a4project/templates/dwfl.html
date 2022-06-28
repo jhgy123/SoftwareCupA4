@@ -17,101 +17,12 @@
 	<link rel="stylesheet" href="{% static 'css/aos.css' %}">
 	<link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/upload.css' %}">
-
+    <link rel="stylesheet" href="{% static 'css/imgtest.css' %}">
 
     <title>地物分类</title>
 </head>
 
 <script src="http://i.gtimg.cn/qzone/biz/gdt/lib/jquery/jquery-2.1.4.js?max_age=31536000"></script>
-
-<script>
-
-    $(function () {
-        $('#upLoad').on('change', function () {
-            var filePath = $(this).val(),         //获取到input的value，里面是文件的路径  
-                fileFormat = filePath.substring(filePath.lastIndexOf(".")).toLowerCase(),
-                imgBase64 = '',      //存储图片的imgBase64  
-                fileObj = document.getElementById('upLoad').files[0]; //上传文件的对象,要这样写才行，用jquery写法获取不到对象  
-
-            // 检查是否是图片  
-            if (!fileFormat.match(/.png|.jpg|.jpeg/)) {
-                alert('上传错误,文件格式必须为：png/jpg/jpeg');
-                return;
-            }
-
-            // 调用函数，对图片进行压缩  
-            compress(fileObj, function (imgBase64) {
-                imgBase64 = imgBase64;    //存储转换的base64编码  
-                $('#viewImg').attr('src', imgBase64); //显示预览图片 
-                $('#viewImg1').attr('src', imgBase64); //显示预览图片  
-            });
-        });
-
-        // 不对图片进行压缩，直接转成base64  
-        function directTurnIntoBase64(fileObj, callback) {
-            var r = new FileReader();
-            // 转成base64  
-            r.onload = function () {
-                //变成字符串  
-                imgBase64 = r.result;
-                console.log(imgBase64);
-                callback(imgBase64);
-            }
-            r.readAsDataURL(fileObj);    //转成Base64格式  
-        }
-
-        // 对图片进行压缩  
-        function compress(fileObj, callback) {
-            if (typeof (FileReader) === 'undefined') {
-                console.log("当前浏览器内核不支持base64图标压缩");
-                //调用上传方式不压缩    
-                directTurnIntoBase64(fileObj, callback);
-            } else {
-                try {
-                    var reader = new FileReader();
-                    reader.onload = function (e) {
-                        var image = $('<img/>');
-                        image.load(function () {
-                            square = 700,   //定义画布的大小，也就是图片压缩之后的像素  
-                                canvas = document.createElement('canvas'),
-                                context = canvas.getContext('2d'),
-                                imageWidth = 0,    //压缩图片的大小  
-                                imageHeight = 0,
-                                offsetX = 0,
-                                offsetY = 0,
-                                data = '';
-
-                            canvas.width = square;
-                            canvas.height = square;
-                            context.clearRect(0, 0, square, square);
-
-                            if (this.width > this.height) {
-                                imageWidth = Math.round(square * this.width / this.height);
-                                imageHeight = square;
-                                offsetX = - Math.round((imageWidth - square) / 2);
-                            } else {
-                                imageHeight = Math.round(square * this.height / this.width);
-                                imageWidth = square;
-                                offsetY = - Math.round((imageHeight - square) / 2);
-                            }
-                            context.drawImage(this, offsetX, offsetY, imageWidth, imageHeight);
-                            var data = canvas.toDataURL('image/jpeg');
-                            //压缩完成执行回调    
-                            callback(data);
-                        });
-                        image.attr('src', e.target.result);
-                    };
-                    reader.readAsDataURL(fileObj);
-                } catch (e) {
-                    console.log("压缩失败!");
-                    //调用直接上传方式  不压缩   
-                    directTurnIntoBase64(fileObj, callback);
-                }
-            }
-        }
-    });
-
-</script>
 
 <body>
     <div class="site-mobile-menu site-navbar-target">
@@ -153,10 +64,10 @@
 
 					<div class="row justify-content-center">
 						<div class="col-lg-8" data-aos="fade-up" data-aos-delay="100">
-							<p class="text-white-50 mb-5">了解更多请点击关于我们</p>		
+							<p class="text-white-50 mb-5">了解更多请点击关于我们</p>
 						</div>
 					</div>
-					
+
 
 					<p data-aos="fade-up" data-aos-delay="200"><a href="#" class="btn btn-white mr-3 ">体验智云盎</a> <a href="{% url 'zya:about' %}" class="text-white glightbox">关于我们</a></p>
 				</div>
@@ -165,36 +76,105 @@
 
 	</div>
 
-	<div class="flexbox">
-	<h1 class="heading text-center fw-bold" data-aos="fade-up" data-aos-delay="0">为您提供一键式智能地物分类服务</h1>
-    </div>
-	
     <div class="flexbox">
-        <!-- 显示上传之后的图片 -->
-        <div></div>
-        <label class="fw-bold mb-4 h2" data-aos="fade-right" data-aos-delay="100" for="message">原始图</label>
-        <div></div>
-        <div style="width: 10vh;"></div>
-        <label class="fw-bold mb-4 h2" data-aos="fade-left" data-aos-delay="100" for="message">变化图</label>
-        <div></div>
-    </div>
-    <div class="flexbox2">
-        <!-- 显示上传之后的图片 -->
-        <div id='previewImg' class="box" data-aos="fade-right" data-aos-delay="100">
-            <img src="" id='viewImg' class="img" />
+        <h1 class="heading text-center fw-bold" data-aos="fade-up" data-aos-delay="0">为您提供一键式智能地物分类服务</h1>
         </div>
 
-        <div id='previewImg' class="box" data-aos="fade-left" data-aos-delay="100">
-            <img src="" id='viewImg1' class="img" />
+    <script>
+		var img;
+        function upload() {
+            console.log('post');
+            $('#upLoad').click();
+        }
+        function loadfile() {
+            var filePath = $('#upLoad').val(),         //获取到input的value，里面是文件的路径
+                fileFormat = filePath.substring(filePath.lastIndexOf(".")).toLowerCase(),
+                imgBase64 = '',      //存储图片的imgBase64
+                fileObj = document.getElementById('upLoad').files[0]; //上传文件的对象,要这样写才行，用jquery写法获取不到对象
+
+            // 检查是否是图片
+            if (!fileFormat.match(/.png|.jpg|.jpeg/)) {
+                alert('上传错误,文件格式必须为：png/jpg/jpeg');
+                return;
+            }
+            directTurnIntoBase64(fileObj, function (params) {
+                imgBase64 = params;
+                $('#viewImg').attr('src', params);
+				img=params.substring(params.indexOf(',') + 1);
+            });
+        }
+		function post(){
+			$.ajax({
+                url:"{% url 'api:dwflapi'%}",    //调用目标检测api，
+                type:'POST',                  // 相当于form 中的 method
+                data:{'b64image1':img},         // 将数据传到后端
+                dataType: "json",             // 注意这个定义的是返回值的类型，不是发送数据的类型，如果返回类型不是json类型，则会进入error函数
+                headers: { "X-CSRFToken": "{{ csrf_token }}" },//Django中表单提交都需要csrf验证
+                success: function (arg) {     // 后端返回成功后的回调函数,data为后端传来的数据
+                    if(arg.status==="success"){//处理成功  arg.status为后端返回的处理状态，值为success表示api处理成功
+						$("#viewImg1").attr("src",arg.result);//在image的src属性赋值为处理后的base64值，浏览器可直接显示
+                    // $("#i").val(arg.data);
+                    $("#ntfText").html("处理成功");
+                }
+                else{
+                    $("#ntfText").html("发起失败");
+                }
+
+                },
+                error:function(){
+                }
+            });
+		}
+        
+        // 不对图片进行压缩，直接转成base64
+        function directTurnIntoBase64(fileObj, callback) {
+            var r = new FileReader();
+            // 转成base64
+            r.onload = function () {
+                //变成字符串
+                imgBase64 = r.result;
+                console.log(imgBase64);
+                callback(imgBase64);
+            }
+            r.readAsDataURL(fileObj);
+        }
+    </script>
+
+    <body>
+
+        <div class="flexbox">
+            <!-- 显示上传之后的图片 -->
+            <div></div>
+            <label class="fw-bold mb-4 h2" data-aos="fade-right" data-aos-delay="100" for="message">原始图</label>
+            <div></div>
+            <div style="width: 10vh;"></div>
+            <label class="fw-bold mb-4 h2" data-aos="fade-left" data-aos-delay="100" for="message">变化图</label>
+            <div></div>
         </div>
-    </div>
-    
-    <div class="flexbox" data-aos="fade-up" data-aos-delay="100">
-        <div class="center">
-            <label for="upLoad" class="btn btn-white mr-3 ">选择图片</label>
-            <input type="file" id="upLoad" name="image" style="display: none;">  
+        <div class="flexbox2">
+            <!-- 显示上传之后的图片 -->
+            <div id='previewImg' class="box" data-aos="fade-right" data-aos-delay="100">
+                <img src="" id='viewImg' />
+            </div>
+
+            <div id='previewImg' class="box" data-aos="fade-left" data-aos-delay="100">
+                <img src="" id='viewImg1' />
+            </div>
         </div>
-    </div>
+
+        <div class="flexbox" data-aos="fade-up" data-aos-delay="100">
+            <div></div>
+            <div class="center">
+                <button class="btn btn-white mr-3" type="submit" onclick="upload()">选择图片</button>
+                <input type="file" id="upLoad" name="image" onchange="loadfile()" style="display: none;">
+            </div>
+            <div></div>
+            <div style="width: 10vh;"></div>
+            <div class="center">
+                <button class="btn btn-white mr-3" onclick="post()">生成图片</button>
+            </div>
+            <div></div>
+        </div>
 
 	<div class="site-footer">
 		<div class="container">
@@ -280,7 +260,7 @@
 	</div>
 	<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 	<script src="{% static 'js/tiny-slider.js' %}"></script>
-	<script src="{% static '/js/aos.js' %}"></script>
+	<script src="{% static 'js/aos.js' %}"></script>
 	<script src="{% static 'js/navbar.js' %}"></script>
 	<script src="{% static 'js/counter.js' %}"></script>
 	<script src="{% static 'js/glightbox.min.js' %}"></script>
