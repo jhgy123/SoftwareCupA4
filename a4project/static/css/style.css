@@ -9248,7 +9248,7 @@ textarea {
       width: 100%; } }
 
 .half-content .img {
-  background-size: cover;
+  background-size: contain;
   background-position: center center;
   background-repeat: no-repeat; }
   @media (max-width: 991.98px) {
