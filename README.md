@@ -143,6 +143,6 @@
 ## 开源贡献
 
 * 非常感谢百度飞桨和北航LEVIR 团队等单位对本项目的数据贡献。注：排名不分先后。
-* 非常感谢[目标检测](https://github.com/geoyee)(陈奕州), [变化检测](https://aistudio.baidu.com/aistudio/projectdetail/3684588?ticket=f89b1634de0e4e60a203d82e39558a9b&alertTip=&qq-pf-to=pcqq.group)(古代飞), [目标提取](https://github.com/Bobholamovic)(林漫晖), [地物分类](https://github.com/kongdebug)(孔远杭)等开源开发项目对智云盎项目的贡献。
+* 非常感谢飞桨aistudio[目标检测](https://aistudio.baidu.com/aistudio/projectdetail/3792609)(古代飞), [变化检测](https://aistudio.baidu.com/aistudio/projectdetail/3684588?ticket=f89b1634de0e4e60a203d82e39558a9b&alertTip=&qq-pf-to=pcqq.group)(古代飞), [目标提取](https://aistudio.baidu.com/aistudio/projectdetail/3792610)(古代飞), [地物分类](https://aistudio.baidu.com/aistudio/projectdetail/3792606)(古代飞)等开源开发项目对智云盎项目的贡献。
 
 
